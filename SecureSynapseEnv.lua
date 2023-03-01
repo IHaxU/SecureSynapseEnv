@@ -13,7 +13,7 @@ end
 local mt = getrawmetatable(getgenv())
 local robloxEnv = mt.__index -- mt.__index == getrenv() -> true
 mt.__index = newcclosure(function(self, idx)
-    if checkcaller() and is_synapse_function(getinfo(3).func) then -- 3 with newcclosure, 2 without.
+    if is_synapse_function(getinfo(3).func) then -- 3 with newcclosure, 2 without.
         if gameEnv[idx] ~= nil then
             return gameEnv[idx]
         end
@@ -21,7 +21,7 @@ mt.__index = newcclosure(function(self, idx)
     return robloxEnv[idx]
 end)
 mt.__newindex = newcclosure(function(self, idx, val)
-    if checkcaller() and is_synapse_function(getinfo(3).func) then -- 3 with newcclosure, 2 without.
+    if is_synapse_function(getinfo(3).func) then -- 3 with newcclosure, 2 without.
         gameEnv[idx] = val
     else
         robloxEnv[idx] = val
